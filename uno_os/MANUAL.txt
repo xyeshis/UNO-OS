@@ -1,0 +1,141 @@
+UNO OS - INSTALL / UPGRADE MANUAL
+=================================
+
+Project:
+- Arduino sketch:      uno_os/uno_os.ino
+- Python CLI terminal: uno_os/host/unoctl.py
+- Python GUI shell:    uno_os/host/unoctl_gui.py
+
+
+1) QUICK INSTALL
+----------------
+
+Requirements:
+- Arduino UNO (R3)
+- USB cable
+- Arduino IDE
+- Python 3.10+ on PC
+
+Step A. Flash firmware:
+1. Open file: uno_os/uno_os.ino in Arduino IDE.
+2. Tools -> Board -> Arduino UNO.
+3. Tools -> Port -> select your COM port.
+4. Click Upload.
+
+Step B. Install Python dependencies:
+1. Open terminal in folder: uno_os/host
+2. Run:
+   pip install -r requirements.txt
+
+Step C. Start terminal client:
+- CLI mode:
+  python unoctl.py
+- GUI mode:
+  python unoctl_gui.py
+
+
+2) FIRST RUN CHECKLIST
+----------------------
+
+After connection you should see UNO prompt:
+  uno>
+
+Run:
+  help
+  ls
+  mem
+  ver
+
+If all commands work, install is successful.
+
+
+3) FILE TRANSFER WORKFLOW
+-------------------------
+
+Upload local file to UNO:
+  python unoctl.py --upload local.py boot
+
+Download UNO file:
+  python unoctl.py --download boot dump.py
+
+Interactive menu (inside unoctl.py):
+- press Ctrl+]
+- choose:
+  u <local> [remote]
+  d <remote> [local]
+
+
+4) UPGRADE PROJECT (SAFE FLOW)
+------------------------------
+
+Use this flow for firmware updates without losing your scripts.
+
+Step 1. Backup UNO files:
+1. Run unoctl.py
+2. Download critical files from board:
+   python unoctl.py --download boot backup_boot.py
+   (repeat for other scripts)
+
+Step 2. Update source code:
+- Pull latest repo changes (or copy updated files).
+- Review changelog/README.
+
+Step 3. Reflash UNO:
+- Upload updated uno_os.ino from Arduino IDE.
+
+Step 4. Restore scripts:
+- Upload your backups back to UNO if needed:
+  python unoctl.py --upload backup_boot.py boot
+
+Step 5. Validation:
+- open terminal and run:
+  ver
+  ls
+  py boot
+
+
+5) TROUBLESHOOTING
+------------------
+
+Issue: "PermissionError(13), access denied"
+Cause: COM port is busy.
+Fix:
+- close Arduino Serial Monitor
+- close PuTTY / other serial apps
+- reconnect USB
+
+Issue: terminal connected but no output
+Fix:
+- press board RESET button
+- verify correct COM port
+- verify firmware uploaded to UNO
+
+Issue: upload/download fails
+Fix:
+- file name on UNO must be <= 8 chars
+- one UNO file size limit: 116 bytes
+- check with command: df
+
+
+6) ROLLBACK PLAN
+----------------
+
+If update failed:
+1. Re-open known-good commit/version.
+2. Re-upload known-good uno_os.ino.
+3. Restore scripts from local backup.
+4. Validate with:
+   help
+   ls
+   py <script>
+
+
+7) RECOMMENDED RELEASE PRACTICE
+-------------------------------
+
+Before publishing portfolio update:
+- keep backup of important UNO scripts
+- test on clean power cycle
+- verify README examples still match real behavior
+- tag release in git (optional): v0.x
+
