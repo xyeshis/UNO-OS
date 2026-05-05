@@ -28,6 +28,9 @@
 
 ## Что куда подходит
 
+<img width="1100" height="700" alt="логическая матрица" src="https://github.com/user-attachments/assets/8149038e-0308-435c-afd3-2461a0828697" />
+
+
 **UNO OS** — гик-проект «настоящей» ОС в 32 КБ flash и 2 КБ RAM:
 файловая система в EEPROM (1 КБ), shell с командами, линейный редактор,
 встроенный **mini-Python интерпретатор** для запуска программ из файлов
@@ -49,3 +52,6 @@ Monitor не подойдёт.
 2 КБ RAM, 1 КБ EEPROM). Должно работать и на UNO R4, Nano, Pro Mini,
 но размеры буферов настроены под 2 КБ RAM. На платах побольше (Mega,
 ESP32) можно поднять лимиты — см. `#define` в начале каждого скетча.
+
+<img width="1100" height="700" alt="аналитическая таблица" src="https://github.com/user-attachments/assets/e098cf6c-f664-430e-b6b6-4f91fbe6f567" />
+
